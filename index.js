@@ -57,6 +57,7 @@ function playRound(humanChoice, computerChoice) {
 }
 
 function playGame() {
+  console.log("This is rock, paper, scissors.");
   for (let i = 0; i < 5; i++) {
     const humanSelection = getHumanChoice();
     const computerSelection = getComputerChoice();
