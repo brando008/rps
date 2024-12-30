@@ -1,4 +1,6 @@
 console.log("Starting...");
+let humanScore = 0;
+let computerScore = 0;
 
 function getComputerChoice() {
   let randomNumber = Math.random();
@@ -17,6 +19,7 @@ function getComputerChoice() {
 
 function getHumanChoice() {
   let humanChoice = prompt("type in either 'r | p | s': ");
+  humanChoice = humanChoice.toLowerCase();
   switch (humanChoice) {
     case "r":
       humanChoice = "rock";
@@ -33,3 +36,32 @@ function getHumanChoice() {
   }
   return humanChoice;
 }
+
+function playRound(humanChoice, computerChoice) {
+  if (humanChoice == computerChoice) {
+    console.log(`Tie. ${humanChoice} equals ${computerChoice}.`);
+    console.log(`Human: ${humanScore}\nComputer: ${computerScore}`);
+  } else if (
+    (humanChoice == "rock" && computerChoice == "paper") ||
+    (humanChoice == "paper" && computerChoice == "scissors") ||
+    (humanChoice == "scissors" && computerChoice == "rock")
+  ) {
+    computerScore += 1;
+    console.log(`You lose! ${computerChoice} beats ${humanChoice}.`);
+    console.log(`Human: ${humanScore}\nComputer: ${computerScore}`);
+  } else {
+    humanScore += 1;
+    console.log(`You win! ${humanChoice} beats ${computerChoice}.`);
+    console.log(`Human: ${humanScore}\nComputer: ${computerScore}`);
+  }
+}
+
+function playGame() {
+  for (let i = 0; i < 5; i++) {
+    const humanSelection = getHumanChoice();
+    const computerSelection = getComputerChoice();
+    playRound(humanSelection, computerSelection);
+  }
+}
+
+playGame();
