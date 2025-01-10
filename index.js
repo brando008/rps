@@ -37,8 +37,13 @@ function getHumanChoice() {
   return humanChoice;
 }
 
+const results = document.querySelector("#results");
+const score = document.querySelector("#score");
+
 function playRound(humanChoice, computerChoice) {
   if (humanChoice == computerChoice) {
+    results.textContent = `Tie. ${humanChoice} equals ${computerChoice}.`;
+    score.textContent = `Human: ${humanScore}\nComputer: ${computerScore}`;
     console.log(`Tie. ${humanChoice} equals ${computerChoice}.`);
     console.log(`Human: ${humanScore}\nComputer: ${computerScore}`);
   } else if (
@@ -47,22 +52,46 @@ function playRound(humanChoice, computerChoice) {
     (humanChoice == "scissors" && computerChoice == "rock")
   ) {
     computerScore += 1;
+    results.textContent = `You lose! ${computerChoice} beats ${humanChoice}.`;
+    score.textContent = `Human: ${humanScore}\nComputer: ${computerScore}`;
     console.log(`You lose! ${computerChoice} beats ${humanChoice}.`);
     console.log(`Human: ${humanScore}\nComputer: ${computerScore}`);
   } else {
     humanScore += 1;
+    results.textContent = `You win! ${humanChoice} beats ${computerChoice}.`;
+    score.textContent = `Human: ${humanScore}\nComputer: ${computerScore}`;
     console.log(`You win! ${humanChoice} beats ${computerChoice}.`);
     console.log(`Human: ${humanScore}\nComputer: ${computerScore}`);
   }
 }
 
-function playGame() {
-  console.log("This is rock, paper, scissors.");
-  for (let i = 0; i < 5; i++) {
-    const humanSelection = getHumanChoice();
-    const computerSelection = getComputerChoice();
-    playRound(humanSelection, computerSelection);
+const rock = document.querySelector("#rock");
+const paper = document.querySelector("#paper");
+const scissors = document.querySelector("#scissors");
+
+function typeEvent(element) {
+  playRound(element, getComputerChoice());
+  if (humanScore >= 5 && computerScore < 5) {
+    results.textContent = "The human has WON!";
+    rock.removeEventListener("click", rockClick);
+    paper.removeEventListener("click", paperClick);
+    scissors.removeEventListener("click", scissorsClick);
+  } else if (computerScore >= 5 && humanScore < 5) {
+    results.textContent = "The computer has bested YOU";
+    rock.removeEventListener("click", rockClick);
+    paper.removeEventListener("click", paperClick);
+    scissors.removeEventListener("click", scissorsClick);
   }
 }
-
-playGame();
+function rockClick() {
+  typeEvent("rock");
+}
+function paperClick() {
+  typeEvent("paper");
+}
+function scissorsClick() {
+  typeEvent("scissors");
+}
+rock.addEventListener("click", rockClick);
+paper.addEventListener("click", paperClick);
+scissors.addEventListener("click", scissorsClick);
